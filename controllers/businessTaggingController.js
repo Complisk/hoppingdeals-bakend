@@ -326,7 +326,7 @@ const getReceivedTaggingSummary = async (req, res) => {
       return res.status(400).json({
         success: false,
         message:
-          "Business placeId is missing. Please set it to view who tagged your business.",
+          "Your business is not listed on Google Maps. Please update your business profile with a Google Place ID to view who tagged your business.",
       });
     }
 
@@ -383,7 +383,7 @@ const listReceivedTaggers = async (req, res) => {
       return res.status(400).json({
         success: false,
         message:
-          "Business placeId is missing. Please set it to view who tagged your business.",
+          "Your business is not listed on Google Maps. Please update your business profile with a Google Place ID to view who tagged your business.",
       });
     }
 

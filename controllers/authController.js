@@ -470,10 +470,7 @@ const login = async (req, res) => {
       }),
     ]);
 
-    console.log(
-      { userAccount, businessAccount },
-      "check business and user account please",
-    );
+    console.log({ userAccount, businessAccount }, "check business and user account please");
 
     // Priority: If email exists in Business model, respond as business first
     if (businessAccount) {
@@ -554,9 +551,7 @@ const login = async (req, res) => {
     }
 
     // Account not found
-    return res
-      .status(404)
-      .json({ message: "Account not found. Please register first." });
+    return res.status(404).json({ message: "Account not found. Please register first." });
   } catch (error) {
     console.error("Login error:", error);
     return res.status(500).json({ message: error?.message });
