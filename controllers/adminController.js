@@ -810,7 +810,23 @@ const getAdminDashboard = async (req, res) => {
 
     // Recent activity
     const recentUsers = await User.findAll({
-      attributes: ["id", "fullName", "email", "role", "status", "createdAt"],
+      attributes: [
+        "id",
+        "fullName",
+        "email",
+        "accountType",
+        "isSuperAdmin",
+        "status",
+        "createdAt",
+      ],
+      include: [
+        {
+          model: Role,
+          as: "role",
+          attributes: ["id", "name"],
+          required: false,
+        },
+      ],
       order: [["createdAt", "DESC"]],
       limit: 5,
     });
@@ -866,7 +882,16 @@ const getAdminDashboard = async (req, res) => {
           : 0,
       },
       recentActivity: {
-        users: recentUsers,
+        users: recentUsers.map((user) => ({
+          id: user.id,
+          fullName: user.fullName,
+          email: user.email,
+          role: user.isSuperAdmin
+            ? "Super Admin"
+            : user.role?.name || user.accountType || "user",
+          status: user.status,
+          createdAt: user.createdAt,
+        })),
         promotions: recentPromotions,
       },
     });
