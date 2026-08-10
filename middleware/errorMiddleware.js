@@ -5,6 +5,19 @@ const notFound = (req, res, next) => {
   next(error);
 };
 
+// Detect database connection exhaustion / pooler limits (e.g. Supabase
+// Supavisor "(EMAXCONNSESSION) max clients reached in session mode").
+const isConnectionExhaustedError = (err) => {
+  const message = String(err?.message || "");
+  return (
+    message.includes("max clients reached") ||
+    message.includes("EMAXCONNSESSION") ||
+    message.includes("too many clients") ||
+    err?.name === "SequelizeConnectionAcquireTimeoutError" ||
+    err?.name === "SequelizeTimeoutError"
+  );
+};
+
 // Error Handler middleware
 const errorHandler = (err, req, res, next) => {
   let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
@@ -19,7 +32,12 @@ const errorHandler = (err, req, res, next) => {
   if (statusCode === 500 && /only image files allowed/i.test(err?.message || "")) {
     statusCode = 400;
   }
-  
+  if (isConnectionExhaustedError(err)) {
+    statusCode = 503;
+    message =
+      "Server is busy right now. Please try again in a few seconds.";
+  }
+
   res.status(statusCode).json({
     message,
     stack: process.env.NODE_ENV === 'production' ? null : err.stack,
