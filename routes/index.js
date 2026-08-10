@@ -15,6 +15,7 @@ const wishlistRoutes = require("./wishlistRoutes");
 const supportRoutes = require("./supportRoutes");
 const businessTaggingRoutes = require("./businessTaggingRoutes");
 const photoRoutes = require("./photoRoutes");
+const businessDirectoryRoutes = require("./businessDirectoryRoutes");
 
 // Import models
 const Business = require("../models/Business");
@@ -191,6 +192,7 @@ const setupRoutes = (app) => {
   app.use("/api/support", supportRoutes);
   app.use("/api/business-tagging", businessTaggingRoutes);
   app.use("/api/photos", photoRoutes);
+  app.use("/api/business-directory", businessDirectoryRoutes);
   app.get("/api/locationtest", async (req, res) => {
     try {
       const ip =
@@ -232,4 +234,5 @@ module.exports = {
   supportRoutes,
   businessTaggingRoutes,
   photoRoutes,
+  businessDirectoryRoutes,
 };

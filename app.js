@@ -19,7 +19,9 @@ const normalizeOrigin = (origin = "") =>
 const allowedOrigins = [
   "https://complisk.com/",
   "https://www.complisk.com/",
+  "http://localhost:3000",
   "http://localhost:8080",
+  "http://localhost:8081",
 ];
 const allowedOriginSet = new Set(allowedOrigins.map(normalizeOrigin));
 
