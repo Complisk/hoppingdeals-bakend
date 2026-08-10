@@ -51,11 +51,11 @@ node scripts/createAdmin.js --name "Admin Name" --email "admin@example.com" --pa
 
 ## 🔑 Test Credentials (After Seed)
 
-| Name                 | Email                   | Password      |
-| -------------------- | ----------------------- | ------------- |
-| Admin User           | admin@example.com       | Admin@123     |
-| System Administrator | sysadmin@complisk.com   | SysAdmin@456  |
-| Test Admin           | test.admin@complisk.com | TestAdmin@789 |
+| Name                 | Email                        | Password      |
+| -------------------- | ---------------------------- | ------------- |
+| Admin User           | admin@example.com            | Admin@123     |
+| System Administrator | sysadmin@Hopping deals.com   | SysAdmin@456  |
+| Test Admin           | test.admin@Hopping deals.com | TestAdmin@789 |
 
 ---
 

@@ -52,7 +52,7 @@ Edit `/etc/nginx/conf.d/default.conf` or `/etc/nginx/sites-available/default`:
 ```nginx
 server {
     listen 80;
-    server_name api.complisk.com;
+    server_name api.Hopping deals.com;
 
     # Increase max upload size to 100MB
     client_max_body_size 100M;
@@ -136,7 +136,7 @@ curl -X POST \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -F "images=@image1.jpg" \
   -F "images=@image2.jpg" \
-  https://api.complisk.com/api/admin/templates/upload
+  https://api.Hopping deals.com/api/admin/templates/upload
 ```
 
 ---

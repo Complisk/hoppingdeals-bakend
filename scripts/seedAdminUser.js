@@ -25,13 +25,13 @@ const seedAdminUser = async () => {
       },
       {
         fullName: "System Administrator",
-        email: "sysadmin@complisk.com",
+        email: "sysadmin@Hopping deals.com",
         password: "SysAdmin@456",
         role: "admin",
       },
       {
         fullName: "Test Admin",
-        email: "test.admin@complisk.com",
+        email: "test.admin@Hopping deals.com",
         password: "TestAdmin@789",
         role: "admin",
       },

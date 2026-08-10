@@ -95,17 +95,15 @@ node scripts/seedAdminUser.js
 #### Default Test Admins:
 
 1. **Admin User**
-
    - Email: `admin@example.com`
    - Password: `Admin@123`
 
 2. **System Administrator**
-
-   - Email: `sysadmin@complisk.com`
+   - Email: `sysadmin@Hopping deals.com`
    - Password: `SysAdmin@456`
 
 3. **Test Admin**
-   - Email: `test.admin@complisk.com`
+   - Email: `test.admin@Hopping deals.com`
    - Password: `TestAdmin@789`
 
 #### Features:
@@ -125,9 +123,9 @@ node scripts/seedAdminUser.js
   Role: admin
   Password: Admin@123 (use this to login)
 
-✓ Admin already exists: sysadmin@complisk.com
+✓ Admin already exists: sysadmin@Hopping deals.com
 ✓ Admin created successfully:
-  Email: test.admin@complisk.com
+  Email: test.admin@Hopping deals.com
   Name: Test Admin
   Role: admin
   Password: TestAdmin@789 (use this to login)
@@ -167,11 +165,10 @@ All admin passwords must meet the following criteria:
    ```
 
 2. **Check Environment Variables:**
-
    - Verify `.env` file has correct database credentials
    - Example `.env`:
      ```
-     DATABASE_URL=postgresql://user:password@localhost:5432/complisk_db
+     DATABASE_URL=postgresql://user:password@localhost:5432/Hopping deals_db
      ```
 
 3. **Run Database Migrations (if needed):**

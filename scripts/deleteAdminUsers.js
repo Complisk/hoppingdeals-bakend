@@ -18,8 +18,8 @@ const deleteAdminUsers = async () => {
 
     const adminEmails = [
       "admin@example.com",
-      "sysadmin@complisk.com",
-      "test.admin@complisk.com",
+      "sysadmin@Hopping deals.com",
+      "test.admin@Hopping deals.com",
     ];
 
     for (const email of adminEmails) {

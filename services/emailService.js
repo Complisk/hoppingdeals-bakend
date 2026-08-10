@@ -9,11 +9,14 @@ const {
   buildBusinessRegistrationWelcomeTemplate,
   buildBusinessRegistrationNotificationTemplate,
 } = require("./emailTemplates/businessRegistrationTemplate");
-const { escapeHtml, wrapEmailTemplate } = require("./emailTemplates/templateUtils");
+const {
+  escapeHtml,
+  wrapEmailTemplate,
+} = require("./emailTemplates/templateUtils");
 
 const hasResendConfig = () => Boolean(process.env.RESEND_API_KEY);
 
-const DEFAULT_FROM = "Complisk <noreply@complisk.com>";
+const DEFAULT_FROM = "Hopping deals <noreply@Hopping deals.com>";
 
 let cachedResend = null;
 
@@ -60,13 +63,13 @@ const buildSupportAutoReplyTemplate = (supportMessage) => {
   const text = [
     `Hi ${name},`,
     "",
-    "Thanks for contacting Complisk. We received your message and our team will review it.",
+    "Thanks for contacting Hopping deals. We received your message and our team will review it.",
     "",
     `Subject: ${subject}`,
     "",
-    "This is an automated transactional email from Complisk.",
+    "This is an automated transactional email from Hopping deals.",
     "",
-    "Complisk Team",
+    "Hopping deals Team",
   ].join("\n");
 
   const html = wrapEmailTemplate({
@@ -74,11 +77,11 @@ const buildSupportAutoReplyTemplate = (supportMessage) => {
     preheader: "Your support message has been received.",
     bodyHtml: `
       <h1 style="margin:0 0 10px 0;font-size:20px;line-height:1.35;color:#111827;">We received your message</h1>
-      <p style="margin:0 0 14px 0;font-size:14px;line-height:1.6;color:#374151;">Hi ${safeName}, thanks for contacting Complisk. Our team will review your message and get back to you as soon as possible.</p>
+      <p style="margin:0 0 14px 0;font-size:14px;line-height:1.6;color:#374151;">Hi ${safeName}, thanks for contacting Hopping deals. Our team will review your message and get back to you as soon as possible.</p>
       <div style="padding:12px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;margin:0 0 14px 0;">
         <p style="margin:0;font-size:13px;line-height:1.6;color:#111827;"><strong>Subject:</strong> ${safeSubject}</p>
       </div>
-      <p style="margin:0;font-size:12px;line-height:1.6;color:#6b7280;">This is an automated transactional email from Complisk.</p>
+      <p style="margin:0;font-size:12px;line-height:1.6;color:#6b7280;">This is an automated transactional email from Hopping deals.</p>
     `,
   });
 
@@ -206,8 +209,9 @@ const sendBusinessRegistrationNotificationEmail = async ({ business }) => {
   }
 
   const from = resolveFrom();
-  const { subject, text, html } =
-    buildBusinessRegistrationNotificationTemplate({ business });
+  const { subject, text, html } = buildBusinessRegistrationNotificationTemplate(
+    { business },
+  );
 
   return sendEmail({
     from,

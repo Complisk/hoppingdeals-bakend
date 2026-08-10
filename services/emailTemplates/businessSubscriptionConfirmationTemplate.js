@@ -50,7 +50,7 @@ const buildBusinessSubscriptionConfirmationTemplate = ({
   const text = [
     `Hi ${businessName || "there"},`,
     "",
-    "Your Complisk subscription is now active.",
+    "Your Hopping deals subscription is now active.",
     "",
     `Plan: ${planName}`,
     `Status: ${status}`,
@@ -61,9 +61,9 @@ const buildBusinessSubscriptionConfirmationTemplate = ({
     `Included Cities: ${freeCities}`,
     `Included States: ${freeStates}`,
     "",
-    "Thank you for subscribing to Complisk.",
+    "Thank you for subscribing to Hopping deals.",
     "",
-    "- Complisk Team",
+    "- Hopping deals Team",
   ].join("\n");
 
   const html = `<!doctype html>
@@ -80,7 +80,7 @@ const buildBusinessSubscriptionConfirmationTemplate = ({
           <table role="presentation" cellpadding="0" cellspacing="0" width="600" style="max-width:600px;width:100%;border-collapse:separate;border-spacing:0;">
             <tr>
               <td style="padding:0 0 14px 0;" align="center">
-                <img src="https://complisk.com/Complisk%20logo%202025-12-25%20at%201,00,05%E2%80%AFPM-Picsart-BackgroundRemover%20(1).png" width="160" alt="Complisk" style="display:block;border:0;outline:none;text-decoration:none;max-width:160px;height:auto;" />
+                <img src="https://Hopping deals.com/Hopping deals%20logo%202025-12-25%20at%201,00,05%E2%80%AFPM-Picsart-BackgroundRemover%20(1).png" width="160" alt="Hopping deals" style="display:block;border:0;outline:none;text-decoration:none;max-width:160px;height:auto;" />
               </td>
             </tr>
             <tr>
@@ -125,12 +125,12 @@ const buildBusinessSubscriptionConfirmationTemplate = ({
                   </table>
                 </div>
 
-                <p style="margin:14px 0 0 0;font-size:12px;line-height:1.6;color:#6b7280;">Thank you for subscribing to Complisk.</p>
+                <p style="margin:14px 0 0 0;font-size:12px;line-height:1.6;color:#6b7280;">Thank you for subscribing to Hopping deals.</p>
               </td>
             </tr>
             <tr>
               <td style="padding:14px 4px 0 4px;" align="center">
-                <p style="margin:0;font-size:12px;line-height:1.6;color:#6b7280;">&copy; ${new Date().getFullYear()} Complisk</p>
+                <p style="margin:0;font-size:12px;line-height:1.6;color:#6b7280;">&copy; ${new Date().getFullYear()} Hopping deals</p>
               </td>
             </tr>
           </table>

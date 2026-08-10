@@ -1,6 +1,7 @@
 # Upload Flow - Complete Analysis & Fixes
 
 ## 🔍 Problem Identified
+
 **Error**: 413 Request Entity Too Large  
 **Cause**: Multiple size limit misconfigurations across the stack
 
@@ -31,33 +32,39 @@ Response to Frontend
 ## 🔧 Fixes Applied
 
 ### 1. **Backend - Express Limits** (app.js)
+
 ```javascript
 // BEFORE: Default 100KB limit
-express.json()
+express.json();
 
 // AFTER: 50MB limit
-express.json({ limit: "50mb" })
-express.urlencoded({ limit: "50mb", extended: false })
+express.json({ limit: "50mb" });
+express.urlencoded({ limit: "50mb", extended: false });
 ```
+
 **Status**: ✅ **COMPLETED**
 
 ### 2. **Backend - Multer Configuration** (adminRoutes.js)
+
 ```javascript
 // BEFORE: 10MB per file
 limits: { fileSize: 10 * 1024 * 1024 }
 
 // AFTER: 50MB per file + field size
-limits: { 
+limits: {
   fileSize: 50 * 1024 * 1024,
   fieldSize: 50 * 1024 * 1024
 }
 ```
+
 **Status**: ✅ **COMPLETED**
 
 ### 3. **Production Nginx Configuration**
+
 The **critical** step - Nginx has a 1MB default limit that blocks uploads.
 
-**Action Required**: 
+**Action Required**:
+
 - SSH into production server
 - Edit nginx config (see NGINX_UPLOAD_CONFIG.md)
 - Add `client_max_body_size 100M;`
@@ -69,16 +76,16 @@ The **critical** step - Nginx has a 1MB default limit that blocks uploads.
 
 ## 📋 Upload Configuration Summary
 
-| Layer | Component | Setting | Value |
-|-------|-----------|---------|-------|
-| Frontend | React Component | MAX_FILE_SIZE_BYTES | 2MB |
-| Frontend | React Component | MAX_UPLOAD_FILES | 10 files |
-| Backend | Express | JSON limit | 50MB |
-| Backend | Express | URL-encoded limit | 50MB |
-| Backend | Multer | File size limit | 50MB |
-| Backend | Multer | Field size limit | 50MB |
-| Server | Nginx | client_max_body_size | **NEEDS INCREASE TO 100MB** |
-| Server | Nginx | proxy_read_timeout | **NEEDS 300s** |
+| Layer    | Component       | Setting              | Value                       |
+| -------- | --------------- | -------------------- | --------------------------- |
+| Frontend | React Component | MAX_FILE_SIZE_BYTES  | 2MB                         |
+| Frontend | React Component | MAX_UPLOAD_FILES     | 10 files                    |
+| Backend  | Express         | JSON limit           | 50MB                        |
+| Backend  | Express         | URL-encoded limit    | 50MB                        |
+| Backend  | Multer          | File size limit      | 50MB                        |
+| Backend  | Multer          | Field size limit     | 50MB                        |
+| Server   | Nginx           | client_max_body_size | **NEEDS INCREASE TO 100MB** |
+| Server   | Nginx           | proxy_read_timeout   | **NEEDS 300s**              |
 
 ---
 
@@ -98,6 +105,7 @@ The **critical** step - Nginx has a 1MB default limit that blocks uploads.
 ## 🧪 Test Commands
 
 ### Local Testing
+
 ```bash
 # In bakend directory
 npm run dev
@@ -106,12 +114,13 @@ npm run dev
 ```
 
 ### Production Testing (with curl)
+
 ```bash
 curl -X POST \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -F "images=@/path/to/image1.jpg" \
   -F "images=@/path/to/image2.jpg" \
-  https://api.complisk.com/api/admin/templates/upload
+  https://api.Hopping deals.com/api/admin/templates/upload
 ```
 
 ---
@@ -119,7 +128,7 @@ curl -X POST \
 ## 📝 Notes
 
 1. **Frontend limit** (2MB) is intentional - prevents massive uploads on client side
-2. **Backend limits** (50MB) are for flexibility and system resources  
+2. **Backend limits** (50MB) are for flexibility and system resources
 3. **Nginx limit** (100MB) must match or exceed backend limits
 4. **Timeouts** need increase because large uploads take time
 

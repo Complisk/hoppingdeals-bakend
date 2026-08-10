@@ -32,7 +32,7 @@ VALUES (
 )
 ON CONFLICT (email) DO NOTHING;
 
--- Admin 2: sysadmin@complisk.com (Password: SysAdmin@456)
+-- Admin 2: sysadmin@Hopping deals.com (Password: SysAdmin@456)
 INSERT INTO "users" (
   "fullName", 
   "email", 
@@ -44,7 +44,7 @@ INSERT INTO "users" (
 ) 
 VALUES (
   'System Administrator',
-  'sysadmin@complisk.com',
+  'sysadmin@Hopping deals.com',
   '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36P4/laSi',  -- bcrypt hash
   'admin',
   false,
@@ -53,7 +53,7 @@ VALUES (
 )
 ON CONFLICT (email) DO NOTHING;
 
--- Admin 3: test.admin@complisk.com (Password: TestAdmin@789)
+-- Admin 3: test.admin@Hopping deals.com (Password: TestAdmin@789)
 INSERT INTO "users" (
   "fullName", 
   "email", 
@@ -65,7 +65,7 @@ INSERT INTO "users" (
 ) 
 VALUES (
   'Test Admin',
-  'test.admin@complisk.com',
+  'test.admin@Hopping deals.com',
   '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcg7b3XeKeUxWdeS86E36P4/laSi',  -- bcrypt hash
   'admin',
   false,

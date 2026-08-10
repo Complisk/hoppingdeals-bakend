@@ -10,18 +10,18 @@ const buildBusinessRegistrationWelcomeTemplate = ({
   const text = [
     `Hi ${personName || "there"},`,
     "",
-    `Welcome to Complisk. Your business "${businessName || "your business"}" has been registered successfully.`,
+    `Welcome to Hopping deals. Your business "${businessName || "your business"}" has been registered successfully.`,
     "",
     "You can now sign in to your business dashboard and start creating promotions.",
     "",
-    "Complisk Team",
+    "Hopping deals Team",
   ].join("\n");
 
   const html = wrapEmailTemplate({
-    title: "Welcome to Complisk",
+    title: "Welcome to Hopping deals",
     preheader: "Your business registration is complete.",
     bodyHtml: `
-      <h1 style="margin:0 0 10px 0;font-size:20px;line-height:1.35;color:#111827;">Welcome to Complisk</h1>
+      <h1 style="margin:0 0 10px 0;font-size:20px;line-height:1.35;color:#111827;">Welcome to Hopping deals</h1>
       <p style="margin:0 0 14px 0;font-size:14px;line-height:1.6;color:#374151;">Hi ${safePersonName}, your business <strong>${safeBusinessName}</strong> has been registered successfully.</p>
       <p style="margin:0 0 14px 0;font-size:14px;line-height:1.6;color:#374151;">Your account is ready. You can now sign in and start creating promotions for your local customers.</p>
       <div style="padding:12px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;">
@@ -31,7 +31,7 @@ const buildBusinessRegistrationWelcomeTemplate = ({
   });
 
   return {
-    subject: "Your Complisk business account is ready",
+    subject: "Your Hopping deals business account is ready",
     text,
     html,
   };
@@ -50,7 +50,7 @@ const buildBusinessRegistrationNotificationTemplate = ({ business }) => {
   const timezone = business?.timezone || "UTC";
 
   const text = [
-    "A new business has registered on Complisk.",
+    "A new business has registered on Hopping deals.",
     "",
     `Name: ${name}`,
     `Email: ${email}`,
@@ -67,7 +67,7 @@ const buildBusinessRegistrationNotificationTemplate = ({ business }) => {
     preheader: `New business registered: ${name}`,
     bodyHtml: `
       <h1 style="margin:0 0 10px 0;font-size:20px;line-height:1.35;color:#111827;">New business registration</h1>
-      <p style="margin:0 0 14px 0;font-size:14px;line-height:1.6;color:#374151;">A new business has joined Complisk. Details are listed below.</p>
+      <p style="margin:0 0 14px 0;font-size:14px;line-height:1.6;color:#374151;">A new business has joined Hopping deals. Details are listed below.</p>
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;font-size:13px;line-height:1.6;color:#111827;">
         <tr><td style="padding:6px 0;border-top:1px solid #e5e7eb;width:160px;"><strong>Name</strong></td><td style="padding:6px 0;border-top:1px solid #e5e7eb;">${escapeHtml(name)}</td></tr>
         <tr><td style="padding:6px 0;border-top:1px solid #e5e7eb;"><strong>Email</strong></td><td style="padding:6px 0;border-top:1px solid #e5e7eb;">${escapeHtml(email)}</td></tr>

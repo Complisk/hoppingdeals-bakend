@@ -17,8 +17,8 @@ const normalizeOrigin = (origin = "") =>
   String(origin).trim().replace(/\/+$/, "").toLowerCase();
 
 const allowedOrigins = [
-  "https://complisk.com/",
-  "https://www.complisk.com/",
+  "https://Hopping deals.com/",
+  "https://www.Hopping deals.com/",
   "http://localhost:3000",
   "http://localhost:8080",
   "http://localhost:8081",
