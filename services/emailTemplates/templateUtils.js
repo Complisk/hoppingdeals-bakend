@@ -30,7 +30,7 @@ const wrapEmailTemplate = ({
           <table role="presentation" cellpadding="0" cellspacing="0" width="600" style="max-width:600px;width:100%;border-collapse:separate;border-spacing:0;">
             <tr>
               <td style="padding:0 0 14px 0;" align="center">
-                <img src="https://Hopping deals.com/Hopping deals%20logo%202025-12-25%20at%201,00,05%E2%80%AFPM-Picsart-BackgroundRemover%20(1).png" width="160" alt="Hopping deals" style="display:block;border:0;outline:none;text-decoration:none;max-width:160px;height:auto;" />
+                <img src="https://www.hoppingdeals.world/logo.png" width="160" alt="Hopping deals" style="display:block;border:0;outline:none;text-decoration:none;max-width:160px;height:auto;" />
               </td>
             </tr>
             <tr>

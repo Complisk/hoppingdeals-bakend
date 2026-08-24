@@ -16,7 +16,10 @@ const {
 
 const hasResendConfig = () => Boolean(process.env.RESEND_API_KEY);
 
-const DEFAULT_FROM = "Hopping deals <noreply@Hopping deals.com>";
+const DEFAULT_FROM = "Hopping deals <noreply@Hoppingdeals.com>";
+
+// Admin email notified when a support message is submitted.
+const SUPPORT_ADMIN_EMAIL = "appanimate@gmail.com";
 
 let cachedResend = null;
 
@@ -36,6 +39,23 @@ const resolveBusinessNotificationRecipients = () => {
     process.env.BUSINESS_REGISTRATION_NOTIFY_EMAILS ||
     process.env.BUSINESS_REGISTRATION_NOTIFY_EMAIL ||
     process.env.ADMIN_NOTIFICATION_EMAIL ||
+    "";
+
+  return Array.from(
+    new Set(
+      raw
+        .split(",")
+        .map((email) => email.trim())
+        .filter(Boolean),
+    ),
+  );
+};
+
+const resolveSupportAdminRecipients = () => {
+  const raw =
+    process.env.SUPPORT_ADMIN_EMAIL ||
+    process.env.ADMIN_NOTIFICATION_EMAIL ||
+    SUPPORT_ADMIN_EMAIL ||
     "";
 
   return Array.from(
@@ -277,8 +297,90 @@ const sendBusinessSubscriptionConfirmationEmail = async ({
   });
 };
 
+const buildSupportAdminNotificationTemplate = (supportMessage) => {
+  const senderType = supportMessage?.senderType
+    ? String(supportMessage.senderType)
+    : "customer";
+  const name = supportMessage?.name ? String(supportMessage.name) : "Anonymous";
+  const email = supportMessage?.email ? String(supportMessage.email) : "N/A";
+  const subject = supportMessage?.subject
+    ? String(supportMessage.subject)
+    : "No subject";
+  const body = supportMessage?.body ? String(supportMessage.body) : "No message";
+
+  const safeSenderType = escapeHtml(senderType);
+  const safeName = escapeHtml(name);
+  const safeEmail = escapeHtml(email);
+  const safeSubject = escapeHtml(subject);
+  const safeBody = escapeHtml(body);
+
+  const text = [
+    "A new support message was submitted:",
+    "",
+    `Sender type: ${senderType}`,
+    `Name: ${name}`,
+    `Email: ${email}`,
+    `Subject: ${subject}`,
+    "",
+    "Message:",
+    body,
+    "",
+    `Reply to ${email} for details.`,
+  ].join("\n");
+
+  const html = wrapEmailTemplate({
+    title: "New support message",
+    preheader: `New support message from ${name}.`,
+    bodyHtml: `
+      <h1 style="margin:0 0 10px 0;font-size:20px;line-height:1.35;color:#111827;">New support message</h1>
+      <p style="margin:0 0 14px 0;font-size:14px;line-height:1.6;color:#374151;">A new support message was submitted through the website. Please review it below.</p>
+      <div style="padding:14px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;margin:0 0 14px 0;">
+        <p style="margin:0 0 8px 0;font-size:13px;line-height:1.6;color:#111827;"><strong>Sender type:</strong> ${safeSenderType}</p>
+        <p style="margin:0 0 8px 0;font-size:13px;line-height:1.6;color:#111827;"><strong>Name:</strong> ${safeName}</p>
+        <p style="margin:0 0 8px 0;font-size:13px;line-height:1.6;color:#111827;"><strong>Email:</strong> ${safeEmail}</p>
+        <p style="margin:0 0 8px 0;font-size:13px;line-height:1.6;color:#111827;"><strong>Subject:</strong> ${safeSubject}</p>
+        <p style="margin:0;font-size:13px;line-height:1.6;color:#111827;"><strong>Message:</strong></p>
+        <pre style="margin:4px 0 0 0;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace;white-space:pre-wrap;line-height:1.45;">${safeBody}</pre>
+      </div>
+      <p style="margin:0;font-size:12px;line-height:1.6;color:#6b7280;">This is an automated notification from Hopping deals.</p>
+    `,
+  });
+
+  return {
+    subject: `New support message: ${subject}`,
+    text,
+    html,
+  };
+};
+
+const sendSupportAdminNotification = async (supportMessage) => {
+  const recipients = resolveSupportAdminRecipients();
+  if (!recipients.length) {
+    return { skipped: true, reason: "No support admin email configured" };
+  }
+
+  const from = resolveFrom();
+  const { subject, text, html } = buildSupportAdminNotificationTemplate(
+    supportMessage,
+  );
+
+  return sendEmail({
+    from,
+    to: recipients,
+    subject,
+    text,
+    html,
+    replyTo: supportMessage?.email || resolveReplyTo(),
+    headers: {
+      "X-Auto-Response-Suppress": "All",
+      "Auto-Submitted": "auto-generated",
+    },
+  });
+};
+
 module.exports = {
   sendSupportAutoReply,
+  sendSupportAdminNotification,
   sendPasswordResetEmail,
   sendBusinessRegistrationWelcomeEmail,
   sendBusinessRegistrationNotificationEmail,

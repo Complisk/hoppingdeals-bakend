@@ -1,6 +1,9 @@
 const { validationResult } = require("express-validator");
 const SupportMessage = require("../models/SupportMessage");
-const { sendSupportAutoReply } = require("../services/emailService");
+const {
+  sendSupportAutoReply,
+  sendSupportAdminNotification,
+} = require("../services/emailService");
 
 // @desc    Create support message (customer/business)
 // @route   POST /api/support/messages
@@ -34,8 +37,12 @@ const createSupportMessage = async (req, res) => {
     });
 
     // Email notifications are best-effort: saving to DB is the source of truth.
+    // Send both the customer auto-reply and an admin notification.
     try {
-      await sendSupportAutoReply(message);
+      await Promise.allSettled([
+        sendSupportAutoReply(message),
+        sendSupportAdminNotification(message),
+      ]);
     } catch (e) {
       console.error("Support email send failed:", e?.message || e);
     }
