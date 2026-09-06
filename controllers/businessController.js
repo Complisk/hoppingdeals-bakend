@@ -23,6 +23,7 @@ const {
   reschedulePromotionJobs,
   cancelPromotionJobs,
 } = require("../services/promotionScheduler");
+const { isTrustedPromotionImageUrl } = require("./promotionImageController");
 
 const extractLatLng = (coordinates) => {
   const value = coordinates?.coordinates;
@@ -379,6 +380,9 @@ const createPromotion = async (req, res) => {
         message:
           "Missing required fields: imageUrl, runDate, stopDate, runTime, stopTime",
       });
+    }
+    if (!isTrustedPromotionImageUrl(resolvedImageUrl) && !resolvedImageUrl.startsWith("data:image/svg+xml")) {
+      return res.status(400).json({ message: "Please use an approved promotion image" });
     }
 
     const resolvedScheduleTimezone = resolveScheduleTimezone({
@@ -743,7 +747,16 @@ const updatePromotion = async (req, res) => {
     if (templateId !== undefined) {
       promotion.templateId = normalizeTemplateId(templateId);
     }
-    if (imageUrl !== undefined) promotion.imageUrl = imageUrl;
+    if (imageUrl !== undefined) {
+      if (
+        String(imageUrl) !== String(promotion.imageUrl) &&
+        !isTrustedPromotionImageUrl(imageUrl) &&
+        !String(imageUrl).startsWith("data:image/svg+xml")
+      ) {
+        return res.status(400).json({ message: "Please use an approved promotion image" });
+      }
+      promotion.imageUrl = imageUrl;
+    }
     if (text !== undefined) {
       promotion.text = Array.isArray(text) ? text : text ? [text] : [];
     }
