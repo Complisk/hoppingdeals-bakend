@@ -2,8 +2,6 @@
 node_modules/
 
 # Environment files
-.env
-.env.*
 
 # Logs
 logs/
@@ -25,10 +23,10 @@ coverage/
 # OS / editor files
 .DS_Store
 Thumbs.db
-.vscode/
 .idea/
 
 # Cache
 .cache/
 tmp/
 temp/
+config.bat
