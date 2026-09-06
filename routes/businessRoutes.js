@@ -25,11 +25,20 @@ const {
 const { protect } = require("../middleware/authMiddleware");
 const { requireActiveSubscription } = require("../middleware/subscriptionMiddleware");
 const { validatePromotion } = require("../middleware/validationMiddleware");
+const { uploadPromotionImage } = require("../controllers/promotionImageController");
 
 const storage = multer.memoryStorage();
 const upload = multer({
   storage,
   limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) cb(null, true);
+    else cb(new Error("Only image files allowed"));
+  },
+});
+const promotionImageUpload = multer({
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith("image/")) cb(null, true);
     else cb(new Error("Only image files allowed"));
@@ -41,6 +50,12 @@ router.use(protect("business"));
 router.get("/dashboard", getDashboard);
 router.get("/profile", getBusinessProfile);
 router.put("/profile", upload.single("logo"), updateBusinessProfile);
+router.post(
+  "/promotion-image",
+  requireActiveSubscription,
+  promotionImageUpload.single("image"),
+  uploadPromotionImage,
+);
 router.post(
   "/promotions",
   requireActiveSubscription,
